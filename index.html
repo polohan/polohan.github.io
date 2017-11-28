@@ -1,75 +1,688 @@
-﻿<!DOCTYPE html>
-<!-- saved from url=(0074)file:///C:/Users/Nico%20Horvatic/Desktop/RainEffect-master/demo/index.html -->
-<html lang="en" class="no-js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Rain Effect Experiments | Demo 1 | Codrops</title>
-	<meta name="description" content="Some WebGL experiments with raindrop effects">
-	<meta name="keywords" content="webgl, raindrops, effect, rain, web, video, background">
-	<meta name="author" content="Lucas Bebber for Codrops">
-	<link rel="shortcut icon" href="file:///C:/Users/Nico%20Horvatic/Desktop/RainEffect-master/demo/favicon.ico">
-	<link rel="stylesheet" type="text/css" href="./index_files/normalize.css">
-	<link href="./index_files/css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="./index_files/demo.css">
-	<link rel="stylesheet" type="text/css" href="./index_files/style1.css">
-	<!--[if IE]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+<html>
+
+<head>
+    <script src="script/libs/createjs.min.js"></script>
+    <script src="script/libs/jquery.min.js"></script>
+    <script src="script/visualizer.js"></script>
+    <script src="script/visual_bar.js"></script>
+    <script src="script/visual_bubbles.js"></script>
+    <script src="script/visual_background.js"></script>
+    <script src="script/slideshow.js"></script>
+    <script src="script/perspective.js"></script>
+    <script src="script/animatedGrid.js"></script>
+    <script src="script/TweenLite.min.js"></script>
 </head>
 
-<body class="demo-1">
-	<div class="image-preload">
-		<img src="./index_files/drop-color.png" alt="">
-		<img src="./index_files/drop-alpha.png" alt="">
-		<img src="./index_files/texture-rain-fg.png">
-		<img src="./index_files/texture-rain-bg.png">
-		<img src="./index_files/texture-sun-fg.png">
-		<img src="./index_files/texture-sun-bg.png">
-		<img src="./index_files/texture-fallout-fg.png">
-		<img src="./index_files/texture-fallout-bg.png">
-		<img src="./index_files/texture-drizzle-fg.png">
-		<img src="./index_files/texture-drizzle-bg.png">
-	</div>
-	<div class="container">
-		<header class="codrops-header">
-			
-			
-			
-		</header>
-		<div class="slideshow">
-			<canvas width="1920" height="974" id="container" style="position: absolute; width: 1920px; height: 974px;"></canvas>
-			<!-- Heavy Rain -->
-			<div class="slide" id="slide-1" data-weather="rain">
-							</div>
-			</div>
-			<!-- Drizzle -->
-			<div class="slide" id="slide-2" data-weather="drizzle">
-				<div class="slide__element slide__element--date">Saturday, 25<sup>th</sup> of October 2043</div>
-				<div class="slide__element slide__element--temp">18°<small>C</small></div>
-			</div>
-			<!-- Sunny -->
-			<div class="slide" id="slide-3" data-weather="sunny">
-				<div class="slide__element slide__element--date">Monday, 26<sup>th</sup> of October 2043</div>
-				<div class="slide__element slide__element--temp">25°<small>C</small></div>
-			</div>
-			<!-- Heavy rain -->
-			<div class="slide" id="slide-5" data-weather="storm">
-				<div class="slide__element slide__element--date">Wednesday, 28<sup>th</sup> of October 2043</div>
-				<div class="slide__element slide__element--temp">20°<small>C</small></div>
-			</div>
-			<!-- Fallout (greenish overlay with slightly greenish/yellowish drops) -->
-			<div class="slide" id="slide-4" data-weather="fallout">
-				<div class="slide__element slide__element--date">Tuesday, 27<sup>th</sup> of October 2043</div>
-				<div class="slide__element slide__element--temp">34°<small>C</small></div>
-			</div>
-			
-		</div>
-		<p class="nosupport">Sorry, but your browser does not support WebGL!</p>
-	</div>
-	<!-- /container -->
-	<script src="./index_files/index.min.js.Download"></script>
+<body>
+    <content>
+        <div class="background-movement">
+            <div class="background-scale">
+                <canvas id="background-canvas" class="background"></canvas>
+            </div>
+        </div>
+        <div class="main-movement">
+            <div class="main-glow-container">
+                <canvas id="main-canvas" class="background"></canvas>
+            </div>
+        </div>
+
+        <canvas id="front-canvas" class="background"></canvas>
+
+        <!--<div class="overlay background"></div>-->
+    </content>
+</body>
+
+</html>
+
+<style>
+    body {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        background: black;
+        background-size: cover;
+        background-position: center top;
+    }
+    /*.overlay {
+        background-image: url("img/5.png");
+        background-size: cover;
+        position: absolute;
+        display: none;
+    }*/
+    
+    .background-movement {
+        position: relative;
+    }
+    
+    content {
+        position: absolute;
+    }
+    
+    #background-canvas,
+    #background-canvas-blur,
+    #front-canvas {
+        position: absolute;
+    }
+    
+    .background {
+        width: 100vw !important;
+        height: 100vh !important;
+        background-size: cover;
+        background-position: 0% 100%;
+    }
+    
+    #main-canvas,
+    #grid-canvas {
+        position: absolute;
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
+
+<script>
+    var visualizer;
+    var rainbowBars;
+    var confetti;
+    var background;
+
+    // Initialize the Visualizer
+    visualizer = $("#main-canvas").visualizer();
+
+    $(document).ready(function() {
+
+        // Startup Setup
+        if (typeof(Storage) !== "undefined") {
+            // Code for localStorage/sessionStorage.
+            var resolution = localStorage.getItem("resolution");
+            if (!!resolution) {
+
+                resolution = JSON.parse(resolution);
+
+                $("#main-canvas, #background-canvas").attr({
+                    width: resolution.width,
+                    height: resolution.height
+                });
+            } else {
+                // Assume 1080P
+                $("#main-canvas, #background-canvas").attr({
+                    width: 1920,
+                    height: 1080
+                });
+            }
+        }
+
+        background = new visualisations.background.beatMoveBlur("bg", visualizer);
+        // Add the visualizers AFTER reading the settings
+        confetti = new visualisations.background.space("space", visualizer);
+
+        rainbowBars = new visualisations.bar.rainbowSimple("bar_1", visualizer);
+
+        rainbowBars.settings.rotation = 45;
+
+        var pinkNoise = [1.1760367470305, 0.85207379418243, 0.68842437227852, 0.63767902570829, 0.5452348949654,
+            0.50723325864167, 0.4677726234682, 0.44204182748767, 0.41956517802157, 0.41517375040002,
+            0.41312118577934, 0.40618363960446, 0.39913707474975, 0.38207008614508, 0.38329789106488,
+            0.37472136606245, 0.36586428412968, 0.37603017335105, 0.39762590761573, 0.39391828858591,
+            0.37930603769622, 0.39433365764563, 0.38511504613859, 0.39082579241834, 0.3811852720504,
+            0.40231453727161, 0.40244151133175, 0.39965366884521, 0.39761103827545, 0.51136400422212,
+            0.66151212038954, 0.66312205226679, 0.7416276690995, 0.74614971301133, 0.84797007577483,
+            0.8573583910469, 0.96382997811663, 0.99819377577185, 1.0628692615814, 1.1059083969751,
+            1.1819808497335, 1.257092297208, 1.3226521464753, 1.3735992532905, 1.4953223705889,
+            1.5310064942373, 1.6193923584808, 1.7094805527135, 1.7706604552218, 1.8491987941428,
+            1.9238418849406, 2.0141596921333, 2.0786429508827, 2.1575522518646, 2.2196355526005,
+            2.2660112509705, 2.320762171749, 2.3574848254513, 2.3986127976537, 2.4043566176474,
+            2.4280476777842, 2.3917477397336, 2.4032522546622, 2.3614180150678
+        ];
+
+        function correctWithPinkNoiseResults(data) {
+
+            for (var i = 0; i < 64; i++) {
+                data[i] /= pinkNoise[i];
+                data[i + 64] /= pinkNoise[i];
+            }
+            return data;
+        }
+
+        if (window.wallpaperRegisterAudioListener) {
+
+            window.wallpaperRegisterAudioListener(function(data) {
+                /* data is an array with 128 floats */
+                data = correctWithPinkNoiseResults(data);
+
+                normalizedData = [];
+
+                for (x = 0; x < data.length; x++) {
+                    normalizedData.push((data[x]) * 200);
+                }
+
+                visualizer.setSoundData(normalizedData);
+            });
+        } else {
+            // When opened in a browser ( or if wallpaperRegisterAudioListener is not available, generate stub data every 75ms) ~ 13fps
+            setInterval(generateFakeData, 75);
+        }
+
+        function generateFakeData() {
+            data = [];
+            for (x = 0; x < 128; x++) {
+                data.push(Math.random() * 1);
+            }
+
+            normalizedData = [];
+
+            for (x = 0; x < 128; x++) {
+                normalizedData.push((data[x]) * 200);
+            }
+
+            visualizer.setSoundData(normalizedData);
+        }
+    });
+
+    var reflectionActive = false;
+    var backgroundType = 1;
+    var imageLocation = "";
+    var visualizerColor = null;
+    var confettiColor = null;
+
+    var audioProcessing = true;
+
+    // Read changes made by users
+    window.wallpaperPropertyListener = {
+
+        setPaused: function(paused) {
+            visualizer.settings.enabled = !paused;
+        },
+
+        applyGeneralProperties: function(properties) {
+            if (properties.fps) {
+                visualizer.setFPS(properties.fps);
+            }
+        },
+
+        applyUserProperties: function(properties) {
+
+            if (properties.audioprocessing) {
+                if (properties.audioprocessing.value == true) {
+                    rainbowBars.settings.enabled = true;
+                    confetti.settings.enabled = true;
+
+                    audioProcessing = true;
+                } else {
+                    rainbowBars.settings.enabled = false;
+                    confetti.settings.enabled = false;
+
+                    audioProcessing = false;
+                }
+            }
+
+            if (properties.backgroundSelect) {
+
+                if (properties.backgroundSelect.value) {
+                    switch (properties.backgroundSelect.value) {
+                        case 1:
+                            // Color
+                            properties.image = null;
+                            properties.directory = null;
+
+                            background.stopSlideShow(true);
+                            background.setImage(null);
+
+                            backgroundType = 1;
+
+                            break;
+                        case 2:
+                            // Image
+                            properties.directory = null;
+
+                            background.stopSlideShow(true);
+                            background.setImage(imageLocation, true);
+
+                            backgroundType = 2;
+
+                            break;
+                        case 3:
+                            // Slideshow
+                            properties.image = null;
+
+                            background.startSlideShow();
+
+                            backgroundType = 3;
+
+                            break;
+                    }
+                }
+            }
+
+            if (properties.rainbow_shiftColours) {
+                rainbowBars.setRotateRainbow(properties.rainbow_shiftColours.value);
+            }
+            if (properties.rainbow_shiftColoursL2R) {
+                rainbowBars.settings.rotateColoursL2R = properties.rainbow_shiftColoursL2R.value;
+            }
+            if (properties.rainbow_shiftColoursDuration) {
+                if (properties.rainbow_shiftColoursDuration.value !== '') {
+                    rainbowBars.settings.rotateRainbowSpeedMultiplier = properties.rainbow_shiftColoursDuration
+                        .value / 100;
+
+                    rainbowBars.setRotateRainbow(rainbowBars.settings.enableRotateColours);
+                }
+            }
+
+            if (properties.rainbow_limitHeight) {
+                if (properties.rainbow_limitHeight.value !== '') {
+                    rainbowBars.settings.heightLimit = properties.rainbow_limitHeight.value;
+                }
+            }
+
+            if (properties.visualizer_enable_idle_state) {
+                if (properties.visualizer_enable_idle_state.value !== '') {
+                    visualizer.settings.enableIdleState = properties.visualizer_enable_idle_state.value;
+                }
+            }
+
+            if (properties.visualizerIdleMovementSpeedMultiplier) {
+                if (properties.visualizerIdleMovementSpeedMultiplier.value !== '') {
+                    visualizer.settings.inactiveMovementSpeedMultiplier = properties.visualizerIdleMovementSpeedMultiplier
+                        .value / 100;
+                }
+            }
+
+            if (properties.visualizerIdleTimoutDuration) {
+                if (properties.visualizerIdleTimoutDuration.value !== '') {
+                    visualizer.settings.inactiveTimeoutSeconds = properties.visualizerIdleTimoutDuration.value;
+                }
+            }
+
+            if (properties.rainbow_capsType) {
+                if (properties.rainbow_capsType.value !== '') {
+                    rainbowBars.settings.lineCapsType = properties.rainbow_capsType.value;
+                }
+            }
 
 
+            if (properties.rainbow_placement) {
 
-</body></html>
+                if (properties.rainbow_placement.value) {
+                    rainbowBars.settings.barsHeight = properties.rainbow_placement.value;
+                }
+            }
+
+            if (properties.rainbow_splitEnabled) {
+                rainbowBars.settings.enableSplit = properties.rainbow_splitEnabled.value;
+            }
+
+            if (properties.rainbow_splitAlpha) {
+                if (properties.rainbow_splitAlpha.value !== "") {
+                    rainbowBars.settings.splitAlpha = properties.rainbow_splitAlpha.value / 100;
+                }
+            }
+
+            if (properties.rainbow_strength) {
+
+                if (properties.rainbow_strength.value) {
+                    rainbowBars.settings.strengthMultiplier = properties.rainbow_strength.value / 100;
+                }
+            }
+
+            if (properties.confetti_enabled && audioProcessing) {
+                confetti.setConfetti(properties.confetti_enabled.value);
+            }
+
+            if (properties.confetti_enabled_idle) {
+                confetti.settings.enabledIdle = properties.confetti_enabled_idle.value;
+            }
+
+            if (properties.confetti_offset_x) {
+                if (properties.confetti_offset_x.value !== "") {
+                    confetti.settings.offsetX = properties.confetti_offset_x.value;
+                }
+            }
+
+            if (properties.confetti_offset_y) {
+                if (properties.confetti_offset_y.value !== "") {
+                    confetti.settings.offsetY = properties.confetti_offset_y.value;
+                }
+            }
+
+            if (properties.confetti_size) {
+
+                if (properties.confetti_size.value) {
+                    confetti.settings.size = properties.confetti_size.value; // 5- 50
+                }
+            }
+
+            if (properties.confetti_burst_size) {
+
+                if (properties.confetti_burst_size.value) {
+                    confetti.settings.burstSize = properties.confetti_burst_size.value; // percentage 25 -200
+                }
+            }
+
+            if (properties.confetti_burst_delay) {
+
+                if (properties.confetti_burst_delay.value) {
+                    confetti.settings.spawnDelay = properties.confetti_burst_delay.value; // percentage 25 -200
+                }
+            }
+
+            if (properties.confetti_rotate) {
+
+                if (properties.confetti_rotate.value) {
+                    confetti.startRotation();
+
+                } else {
+                    confetti.stopRotation();
+                }
+            }
+
+            if (properties.confetti_rotation_duration) {
+                if (properties.confetti_rotation_duration.value !== "") {
+                    confetti.setRotationSpeed(properties.confetti_rotation_duration.value * 1000);
+                }
+            }
+
+            if (properties.confetti_minSound) {
+
+                if (properties.confetti_minSound.value) {
+                    confetti.settings.minimumSound = properties.confetti_minSound.value; // 1 - 30
+                }
+            }
+
+            if (properties.rainbow_blur) {
+
+                if (properties.rainbow_blur.value) {
+                    $("#main-canvas").css({
+                        "filter": "blur(" + properties.rainbow_blur.value / 10 + "px)"
+                    });
+                } else {
+                    $("#main-canvas").css({
+                        "filter": "none"
+                    });
+                }
+            }
+
+            if (properties.rainbow_gap) {
+
+                if (properties.rainbow_gap.value !== "") {
+                    rainbowBars.settings.barGap = properties.rainbow_gap.value;
+                }
+            }
+
+            if (properties.rainbow_barWidth) {
+
+                if (properties.rainbow_barWidth.value !== "") {
+                    rainbowBars.settings.barWidth = properties.rainbow_barWidth.value;
+                }
+            }
+
+            if (properties.rainbow_verticalPosition) {
+
+                if (properties.rainbow_verticalPosition.value !== "") {
+                    rainbowBars.settings.barsVerticalPosition = properties.rainbow_verticalPosition.value;
+                }
+            }
+
+            if (properties.rainbow_horizontalPosition) {
+
+                if (properties.rainbow_horizontalPosition.value !== "") {
+                    rainbowBars.settings.barsHorizontalPosition = properties.rainbow_horizontalPosition.value;
+                }
+            }
+
+            if (properties.rainbow_glowEnabled) {
+                rainbowBars.settings.glowEnabled = !!properties.rainbow_glowEnabled.value;
+            }
+
+            if (properties.rainbow_glowSize) {
+
+                if (properties.rainbow_glowSize.value) {
+                    rainbowBars.settings.glowSize = properties.rainbow_glowSize.value;
+                }
+            }
+
+            if (properties.rainbow_rotation) {
+
+                if (properties.rainbow_rotation.value !== "") {
+                    rainbowBars.settings.rotation = properties.rainbow_rotation.value;
+                }
+            }
+
+            if (properties.rainbow_barsAmount) {
+
+                if (properties.rainbow_barsAmount.value !== "") {
+                    rainbowBars.setPrecision(properties.rainbow_barsAmount.value);
+                }
+            }
+
+            if (properties.rainbow_verticalGrowthOffset) {
+
+                if (properties.rainbow_verticalGrowthOffset.value !== "") {
+                    rainbowBars.settings.verticalGrowthOffset = properties.rainbow_verticalGrowthOffset.value +
+                        100;
+                }
+            }
+
+            if (properties.rainbow_glowColor) {
+
+                if (properties.rainbow_glowColor.value) {
+                    var c = properties.rainbow_glowColor.value.split(' ').map(function(c) {
+                        return Math.ceil(c * 255)
+                    });
+                    rainbowBars.settings.glowColor = 'rgb(' + c + ')';
+                }
+            }
+
+            if (properties.schemecolor) {
+                if (properties.schemecolor.value) {
+                    var c = properties.schemecolor.value.split(' ').map(function(c) {
+                        return Math.ceil(c * 255)
+                    });
+                    document.body.style.backgroundColor = 'rgb(' + c + ')';
+                }
+            };
+
+            if (properties.slideShowDuration) {
+
+                if (properties.slideShowDuration.value) {
+                    background.settings.slideShowShowTime = properties.slideShowDuration.value * 1000;
+                }
+            }
+
+            if (properties.slideShowFadeDuration) {
+
+                if (properties.slideShowFadeDuration.value) {
+                    background.settings.slideShowFadeDuration = properties.slideShowFadeDuration.value * 1000;
+                } else {
+                    background.settings.slideShowFadeDuration = 0;
+                }
+            }
+
+            // EXTRA SETTINGS
+            if (properties.background_extra_bounceEnabled) {
+
+                if (properties.background_extra_bounceEnabled.value) {
+                    background.settings.scaleEnabled = true;
+                } else {
+                    background.settings.scaleEnabled = false;
+                }
+            }
+
+            if (properties.background_extra_bounceStrength) {
+                if (properties.background_extra_bounceStrength.value) {
+                    background.settings.scaleStrengthMultiplier = properties.background_extra_bounceStrength.value /
+                        100;
+                }
+            }
+
+            if (properties.background_extra_rockingEnabled) {
+                if (properties.background_extra_rockingEnabled.value) {
+                    background.settings.rotationEnabled = true;
+                } else {
+                    background.settings.rotationEnabled = false;
+                }
+            }
+
+            if (properties.background_extra_rockingStrength) {
+                if (properties.background_extra_rockingStrength.value) {
+                    background.settings.rotationStrengthMultiplier = properties.background_extra_rockingStrength
+                        .value / 100;
+                }
+            }
+
+            if (properties.background_extra_rockingSpeed) {
+                if (properties.background_extra_rockingSpeed.value) {
+                    background.settings.rotationSpeedMultiplier = properties.background_extra_rockingSpeed.value /
+                        100;
+                }
+            }
+
+            if (properties.background_extra_blurEnable) {
+                if (properties.background_extra_blurEnable.value) {
+                    background.settings.blurEnabled = true;
+                } else {
+                    background.settings.blurEnabled = false;
+                }
+            }
+
+            if (properties.background_extra_blurStrength) {
+
+                if (properties.background_extra_blurStrength.value) {
+                    background.settings.blurStrengthMultiplier = properties.background_extra_blurStrength.value /
+                        100;
+                }
+            }
+            if (properties.background_extra_lightingEnable) {
+                if (properties.background_extra_lightingEnable.value) {
+                    background.settings.lightEnabled = true;
+                } else {
+                    background.settings.lightEnabled = false;
+                }
+            }
+
+            if (properties.background_extra_LightingStrength) {
+                if (properties.background_extra_LightingStrength.value) {
+
+                    var str = properties.background_extra_LightingStrength.value;
+                    background.settings.lightStrengthMultiplier = str / 100;
+                }
+            }
+
+            if (properties.rainbow_color) {
+
+                if (properties.rainbow_color.value) {
+                    var c = properties.rainbow_color.value.split(' ').map(function(c) {
+                        return Math.ceil(c * 255)
+                    });
+                    visualizerColor = 'rgb(' + c + ')';
+                    rainbowBars.settings.color = visualizerColor;
+                }
+            };
+
+            if (properties.rainbow_colorType) {
+                if (properties.rainbow_colorType.value == 1) {
+                    rainbowBars.settings.color = null;
+                } else {
+                    rainbowBars.settings.color = visualizerColor;
+                }
+            }
+
+            if (properties.confetti_color) {
+
+                if (properties.confetti_color.value) {
+                    var c = properties.confetti_color.value.split(' ').map(function(c) {
+                        return Math.ceil(c * 255)
+                    });
+                    confettiColor = 'rgb(' + c + ')';
+                    confetti.settings.color = confettiColor;
+                }
+            };
+
+            if (properties.confetti_colorType) {
+                if (properties.confetti_colorType.value == 1) {
+                    confetti.settings.color = null;
+                } else {
+                    confetti.settings.color = confettiColor;
+                }
+            }
+
+            if (properties.rainbow_hideNoSound) {
+                if (properties.rainbow_hideNoSound.value) {
+                    rainbowBars.settings.hideNoSound = true;
+                } else {
+                    rainbowBars.settings.hideNoSound = false;
+                }
+            }
+
+            if (properties.perf_enableFPS) {
+                if (properties.perf_enableFPS.value) {
+                    visualizer.settings.fpsEnabled = true;
+                } else {
+                    visualizer.settings.fpsEnabled = false;
+                }
+            }
+
+            if (properties.image) {
+                if (properties.image.value) {
+
+                    imageLocation = "file:///" + properties.image.value;
+
+                    background.setImage(null);
+
+                    background.setImage(imageLocation, true);
+                } else {
+                    imageLocation = null;
+                    background.setImage(null);
+                }
+            }
+
+            if (properties.directory) {
+                if (properties.directory.value) {
+                    background.startSlideShow();
+                } else {
+                    background.stopSlideShow();
+                }
+            }
+
+            if (properties.perf_targetResolution) {
+                if (properties.perf_targetResolution.value) {
+                    switch (properties.perf_targetResolution.value) {
+                        case 1:
+                            $("#main-canvas, #background-canvas").attr({
+                                width: $(document).width(),
+                                height: $(document).height()
+                            });
+                            break;
+                        case 2:
+                            $("#main-canvas, #background-canvas").attr({
+                                width: 1920,
+                                height: 1080
+                            });
+                            break;
+                        case 3:
+                            $("#main-canvas, #background-canvas").attr({
+                                width: 1280,
+                                height: 720
+                            });
+                            break;
+                        case 4:
+                            $("#main-canvas, #background-canvas").attr({
+                                width: 720,
+                                height: 480
+                            });
+                            break;
+                    }
+
+                    rainbowBars.reset();
+
+                    if (typeof(Storage) !== "undefined") {
+                        // Code for localStorage/sessionStorage.
+                        localStorage.setItem("resolution", JSON.stringify({
+                            width: $("#main-canvas").attr("width"),
+                            height: $("#main-canvas").attr("height")
+                        }));
+                    }
+                }
+            }
+        }
+    }
+</script>

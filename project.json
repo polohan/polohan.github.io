@@ -1,9 +1,537 @@
 {
-	"description" : "Desktop with raindrops\n\nSource(not by me): \nhttps://github.com/codrops/RainEffect",
-	"file" : "index.html",
-	"general" : null,
-	"preview" : "preview.jpg",
-	"title" : "Rain",
-	"type" : "web",
-	"visibility" : "public"
+    "approved": true,
+    "description": "Music visualizer for you desktop \n\nA rainbow for your desktop based on the music you play!\n\nYou can specify most variables like :\n- 'Listen strength'\n- Vertical position\n- Bar width\n- many more...\n- please check youtube video for examples",
+    "file": "index.html",
+    "general": {
+        "properties": {
+            "backgroundSelect": {
+                "options": [{
+                        "label": "Color",
+                        "value": 1
+                    },
+                    {
+                        "label": "Image",
+                        "value": 2
+                    },
+                    {
+                        "label": "Slideshow",
+                        "value": 3
+                    }
+                ],
+                "order": 10,
+                "text": "Background type",
+                "type": "combo",
+                "value": 1
+            },
+            "background_extra_LightingStrength": {
+                "condition": "background_extra_show.value == true",
+                "max": 200,
+                "min": 10,
+                "order": 74,
+                "text": "Hi-light strength (%)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "background_extra_blurEnable": {
+                "condition": "background_extra_show.value == true",
+                "order": 70,
+                "text": "Blur on beat<br><span style='position:relative; font-size:12px;color:red'>Blur needs to be rendered first. You'll experience lagg at first, but should smooth out over time when all the 'states' have been rendered.</span>",
+                "type": "bool",
+                "value": false
+            },
+            "background_extra_blurStrength": {
+                "condition": "background_extra_show.value == true",
+                "max": 200,
+                "min": 10,
+                "order": 71,
+                "text": "Blur strength (%)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "background_extra_bounceEnabled": {
+                "condition": "background_extra_show.value == true",
+                "order": 55,
+                "text": "Bounce on bass",
+                "type": "bool",
+                "value": false
+            },
+            "background_extra_bounceStrength": {
+                "condition": "background_extra_show.value == true",
+                "max": 200,
+                "min": 10,
+                "order": 56,
+                "text": "Bounce strength (%)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "background_extra_lightingEnable": {
+                "condition": "background_extra_show.value == true",
+                "order": 73,
+                "text": "Hi-light background on beat",
+                "type": "bool",
+                "value": false
+            },
+            "background_extra_rockingEnabled": {
+                "condition": "background_extra_show.value == true",
+                "order": 60,
+                "text": "Rocking (wobble)",
+                "type": "bool",
+                "value": false
+            },
+            "background_extra_rockingSpeed": {
+                "condition": "background_extra_show.value == true",
+                "max": 200,
+                "min": 10,
+                "order": 65,
+                "text": "Rocking speed (%)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "background_extra_rockingStrength": {
+                "condition": "background_extra_show.value == true",
+                "max": 200,
+                "min": 50,
+                "order": 61,
+                "text": "Rocking strength (%)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "background_extra_show": {
+                "order": 50,
+                "text": "Show extra settings",
+                "type": "bool",
+                "value": false
+            },
+            "confetti_burst_size": {
+                "max": 50,
+                "min": 1,
+                "order": 375,
+                "text": "Amount of confetti to spawn at a single time",
+                "type": "slider",
+                "value": 10,
+                "editable": true
+            },
+            "confetti_burst_delay": {
+                "max": 200,
+                "min": 10,
+                "order": 380,
+                "text": "Timeout in between bursts (ms)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "confetti_color": {
+                "condition": "confetti_colorType.value == 2",
+                "order": 306,
+                "text": "Confetti color",
+                "type": "color",
+                "value": "1 0 0"
+            },
+            "confetti_colorType": {
+                "options": [{
+                        "label": "Rainbow",
+                        "value": 1
+                    },
+                    {
+                        "label": "Solid Color",
+                        "value": 2
+                    }
+                ],
+                "order": 305,
+                "text": "Color type",
+                "type": "combo",
+                "value": 1
+            },
+            "confetti_enabled": {
+                "order": 301,
+                "text": "Enable Confetti",
+                "type": "bool",
+                "value": true
+            },
+            "confetti_enabled_idle": {
+                "condition": "confetti_enabled.value",
+                "order": 302,
+                "text": "Enable Confetti in idle mode",
+                "type": "bool",
+                "value": false
+            },
+            "confetti_minSound": {
+                "max": 100,
+                "min": 1,
+                "order": 350,
+                "text": "Minimum soundlevel to spawn",
+                "type": "slider",
+                "value": 30,
+                "editable": true
+            },
+            "confetti_offset_x": {
+                "max": 100,
+                "min": -100,
+                "order": 321,
+                "text": "Spawn point X-offset (%)",
+                "type": "slider",
+                "value": 0
+            },
+            "confetti_offset_y": {
+                "max": 100,
+                "min": -100,
+                "order": 322,
+                "text": "Spawn point Y-offset (%)",
+                "type": "slider",
+                "value": 0
+            },
+            "confetti_rotate": {
+                "order": 330,
+                "text": "Enable rotation",
+                "type": "bool",
+                "value": false
+            },
+            "confetti_rotation_duration": {
+                "condition": "confetti_rotate.value == true",
+                "max": 30,
+                "min": 1,
+                "order": 335,
+                "text": "Duration of full rotation (seconds)",
+                "type": "slider",
+                "value": 10,
+                "editable": true
+            },
+            "confetti_size": {
+                "max": 100,
+                "min": 5,
+                "order": 325,
+                "text": "Radius size (pixels)",
+                "type": "slider",
+                "value": 25,
+                "editable": true
+            },
+            "directory": {
+                "condition": "backgroundSelect.value == 3",
+                "mode": "ondemand",
+                "order": 11,
+                "text": "Image Folder",
+                "type": "directory"
+            },
+            "image": {
+                "condition": "backgroundSelect.value == 2",
+                "order": 11,
+                "text": "Background Image",
+                "type": "file"
+            },
+            "label_background": {
+                "order": 1,
+                "text": "<h4>Background</h4><span style='color:gray'>Settings related to the background of the visualizer</span>",
+                "type": "text"
+            },
+            "label_background_extra": {
+                "condition": "background_extra_show.value == true",
+                "order": 51,
+                "text": "<h4>Background Extra</h4><span style='color:gray'>Extra settings related to the background of the visualizer</span>",
+                "type": "text"
+            },
+            "label_confetti": {
+                "order": 300,
+                "text": "<h4>Confetti</h4><span style='color:gray'>Settings that are related to the confetti -- more to come in future updates!</span>",
+                "type": "text"
+            },
+            "label_extra": {
+                "order": 1000,
+                "text": "<h4>Extra</h4><span style='color:gray'>Settings that are not related to the wallpaper specific, but can help with increasing/debuggin performance</span>",
+                "type": "text"
+            },
+            "label_visualizer": {
+                "order": 100,
+                "text": "<h4>Visualizer</h4><span style='color:gray'>Settings related to the visualizer</span>",
+                "type": "text"
+            },
+            "perf_enableFPS": {
+                "order": 1100,
+                "text": "Enable FPS counter",
+                "type": "bool",
+                "value": false
+            },
+            "perf_targetResolution": {
+                "options": [{
+                        "label": "Screen Resolution",
+                        "value": 1
+                    },
+                    {
+                        "label": "1080P (FHD)",
+                        "value": 2
+                    },
+                    {
+                        "label": "720P (HD)",
+                        "value": 3
+                    },
+                    {
+                        "label": "480P (DVD)",
+                        "value": 4
+                    }
+                ],
+                "order": 1005,
+                "text": "Resolution<br><span style='position:relative; font-size:12px;color:red'>**On multi monitor setups try 1080P</span>",
+                "type": "combo",
+                "value": 1
+            },
+            "rainbow_barWidth": {
+                "max": 40,
+                "min": 1,
+                "order": 104,
+                "text": "Bar width (pixels)",
+                "type": "slider",
+                "value": 5,
+                "editable": true
+            },
+            "rainbow_barsAmount": {
+                "max": 256,
+                "min": 1,
+                "order": 104,
+                "text": "Number of bars<br>(default: 64)",
+                "type": "slider",
+                "value": 64,
+                "editable": true
+            },
+            "rainbow_blur": {
+                "max": 20,
+                "min": 0,
+                "order": 120,
+                "text": "Blur amount",
+                "type": "slider",
+                "value": 5
+            },
+            "rainbow_capsType": {
+                "options": [{
+                        "label": "None",
+                        "value": 0
+                    },
+                    {
+                        "label": "Round",
+                        "value": 1
+                    },
+                    {
+                        "label": "Square",
+                        "value": 2
+                    }
+                ],
+                "order": 104,
+                "text": "Line caps type",
+                "type": "combo",
+                "value": 1
+            },
+            "rainbow_color": {
+                "condition": "rainbow_colorType.value == 2",
+                "order": 102,
+                "text": "Visualizer color",
+                "type": "color",
+                "value": "1 0 0"
+            },
+            "rainbow_colorType": {
+                "options": [{
+                        "label": "Rainbow",
+                        "value": 1
+                    },
+                    {
+                        "label": "Solid Color",
+                        "value": 2
+                    }
+                ],
+                "order": 101,
+                "text": "Color type",
+                "type": "combo",
+                "value": 1
+            },
+            "rainbow_gap": {
+                "max": 40,
+                "min": 0,
+                "order": 105,
+                "text": "Gap size (pixels)",
+                "type": "slider",
+                "value": 15,
+                "editable": true
+            },
+            "rainbow_glowColor": {
+                "condition": "rainbow_glowEnabled.value",
+                "order": 118,
+                "text": "Glow color",
+                "type": "color",
+                "value": "1 1 1"
+            },
+            "rainbow_glowEnabled": {
+                "order": 117,
+                "text": "Enable glow",
+                "type": "bool",
+                "value": false
+            },
+            "rainbow_glowSize": {
+                "condition": "rainbow_glowEnabled.value",
+                "max": 50,
+                "min": 1,
+                "order": 118,
+                "text": "Glow size<br><span style='position:relative; font-size:12px;color:red'>Glow (size) is CPU intensive, please use the FPS counter (at the bottom) to monitor performance</span>",
+                "type": "slider",
+                "value": 10,
+                "editable": true
+            },
+            "rainbow_hideNoSound": {
+                "order": 125,
+                "text": "Hide bars when no sound",
+                "type": "bool",
+                "value": false
+            },
+            "rainbow_horizontalPosition": {
+                "max": 100,
+                "min": -100,
+                "order": 112,
+                "text": "Horizontal placement offset (%)",
+                "type": "slider",
+                "value": 0
+            },
+            "rainbow_limitHeight": {
+                "max": 500,
+                "min": 0,
+                "order": 125,
+                "text": "Height limit (0 = disabled)",
+                "type": "slider",
+                "value": 0,
+                "editable": true
+            },
+            "rainbow_rotation": {
+                "max": 360,
+                "min": 0,
+                "order": 119,
+                "text": "Bar rotation (degrees)",
+                "type": "slider",
+                "value": 0
+            },
+            "rainbow_shiftColours": {
+                "condition": "rainbow_colorType.value == 1",
+                "order": 102,
+                "text": "Shift rainbow colours",
+                "type": "bool",
+                "value": false
+            },
+            "rainbow_shiftColoursL2R": {
+                "condition": "rainbow_colorType.value == 1 && rainbow_shiftColours.value",
+                "order": 103,
+                "text": "Shift rainbow colours left-to-right",
+                "type": "bool",
+                "value": false
+            },
+            "rainbow_shiftColoursDuration": {
+                "condition": "rainbow_colorType.value == 1 && rainbow_shiftColours.value",
+                "max": 200,
+                "min": 1,
+                "order": 104,
+                "text": "Shift rainbow duration (lower = faster)",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "rainbow_splitAlpha": {
+                "condition": "rainbow_splitEnabled.value",
+                "max": 100,
+                "min": 0,
+                "order": 129,
+                "text": "Split alpha (%)",
+                "type": "slider",
+                "value": 30
+            },
+            "rainbow_splitEnabled": {
+                "order": 128,
+                "text": "Enable split of visualizer (mirror)",
+                "type": "bool",
+                "value": false
+            },
+            "rainbow_strength": {
+                "max": 500,
+                "min": 50,
+                "order": 109,
+                "text": "Strength",
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "rainbow_verticalGrowthOffset": {
+                "max": 100,
+                "min": -100,
+                "order": 110,
+                "text": "Vertical growth offset (%)",
+                "type": "slider",
+                "value": 0
+            },
+            "rainbow_verticalPosition": {
+                "max": 100,
+                "min": -100,
+                "order": 111,
+                "text": "Vertical placement offset (%)",
+                "type": "slider",
+                "value": 0
+            },
+            "schemecolor": {
+                "condition": "backgroundSelect.value == 1",
+                "order": 11,
+                "text": "Background color",
+                "type": "color",
+                "value": "0 0 0"
+            },
+            "slideShowDuration": {
+                "condition": "backgroundSelect.value == 3",
+                "max": 60,
+                "min": 1,
+                "order": 13,
+                "text": "Duration for image to show (seconds)",
+                "type": "slider",
+                "value": 10,
+                "editable": true
+            },
+            "slideShowFadeDuration": {
+                "condition": "backgroundSelect.value == 3",
+                "max": 5,
+                "min": 0,
+                "order": 13,
+                "text": "Duration of fade (seconds)",
+                "type": "slider",
+                "value": 3,
+                "editable": true
+            },
+            "visualizer_enable_idle_state": {
+                "order": 104,
+                "text": "Enable idle animation",
+                "type": "bool",
+                "value": false
+            },
+            "visualizerIdleMovementSpeedMultiplier": {
+                "condition": "visualizer_enable_idle_state.value",
+                "order": 105,
+                "text": "Wave movement speed ( higher is faster )",
+                "max": 200,
+                "min": 10,
+                "type": "slider",
+                "value": 100,
+                "editable": true
+            },
+            "visualizerIdleTimoutDuration": {
+                "condition": "visualizer_enable_idle_state.value",
+                "order": 105,
+                "text": "Timeout before starting (seconds)",
+                "max": 30,
+                "min": 0,
+                "type": "slider",
+                "value": 3,
+                "editable": true
+            }
+        },
+        "supportsaudioprocessing": true
+    },
+    "preview": "preview.jpg",
+    "tags": ["Music"],
+    "title": "Customizable Rainbow Visualizer Lines",
+    "type": "web",
+    "visibility": "public",
+    "workshopid": 867791634
 }
