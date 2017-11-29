@@ -1,5 +1,5 @@
 {
-	"description" : "整合了工坊两个桌面，只是觉得这两个和起来比较好看，所以分享给大家，如果两位作者觉得不妥，我马上删除",
+	"description" : "Heavy rain & Wallpaper moving with mouse. Not pre-rendered.\nSource: \nhttps://github.com/codrops/RainEffect\n\n\nAlso check out the other version!\nhttp://steamcommunity.com/workshop/filedetails/?id=780666753",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -10,13 +10,14 @@
 				"order" : 0,
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
-				"value" : "0 0 0"
+				"value" : "0.2235294117647059 0.38823529411764707 0.4470588235294118"
 			}
 		}
 	},
-	"monetization" : false,
 	"preview" : "preview.jpg",
-	"title" : "Time lapse",
+	"tags" : [ "Nature" ],
+	"title" : "Rain Drops (heavy rain)",
 	"type" : "web",
-	"visibility" : "public"
+	"visibility" : "public",
+	"workshopid" : 779812076
 }
