@@ -1,0 +1,71 @@
+ul {
+    list-style-type: none;
+    margin: 50px;
+    padding: 0;
+}
+main {
+    text-align: center;
+}
+#cards li {
+    display: inline-block;
+    text-align: center;
+    width: 200px;
+}
+
+.cards img{
+    padding: 2px;
+    width:100px;
+    
+}
+.cards img:hover {
+    padding: 0px;
+    width:100px;
+    border: 2px solid red;
+    border-radius: 10px;
+}
+section {
+    display: inline-block;
+}
+.interaction {
+    margin-top: 50px;
+}
+.interaction button {
+    border: none;
+    text-decoration: None;
+    height: 50px;
+    width: 300px;
+    font-size: 20px;
+    outline:none;
+    background-color: black;
+    color:white;
+    padding:0px;
+}
+#horizontal {
+    padding:0px;
+    margin:50px 50px 50px 50px;
+}
+
+.interaction li {
+    margin: 0px;
+}
+
+.interaction button:hover{
+    background-color: grey;
+}
+
+#horizontal ul {
+    display:inline-block;
+    text-align:center;
+}
+
+#input input{
+    height:50px;
+    width: 400px;
+    font-size: 20px;
+    padding: 1px;
+}
+
+#input li{
+    margin: 20px;
+}
+

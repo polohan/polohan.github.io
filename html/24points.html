@@ -1,0 +1,70 @@
+<!doctype html>
+@@include('header.html')
+<link rel="stylesheet" href="../css/24points.css">
+<body>
+    <script async src="../24points.js"></script>
+    <main> 
+            <ul id=cards class=cards>
+                <li>
+                    <section id=card0>
+                        <img src="../images/cards/red_back.png", alt="2 of clubs">
+                        <br>
+                        <span>First Number</span>
+                        <input value="Enter the first number"/>
+                    </section>
+                </li>
+                <li>
+                    <section id=card1>
+                        <img src="../images/cards/purple_back.png", alt="2 of clubs">
+                        <br>
+                        <span>Second Number</span>
+                        <input value="Enter second number"/>
+                    </section>    
+                </li>
+                <li>
+                    <section id=card2>
+                        <img src="../images/cards/blue_back.png", alt="2 of clubs">
+                        <br>
+                        <span>Third Number</span>
+                        <input value="Enter Third number"/>
+                    </section>
+                    
+                </li>
+                <li>
+                    <section id=card3>
+                        <img src="../images/cards/green_back.png", alt="2 of clubs">
+                        <br>
+                        <span>Fourth Number</span>
+                        <input value="Enter fourth number"/>
+                    </section>                
+                </li>
+            </ul>
+
+            <div class=interaction>
+                <ul id=horizontal>
+                    <ul id=input>
+                        <li>
+                            <input id=in value="Enter your soution here.">
+                        </li>
+                        <li>
+                            <input id=out value="N/A" style="outline: none;" readonly>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <button id=redraw>Redraw cards</button>
+                        </li>
+                        <li>
+                            <button id=step>Show me one step</button>
+                        </li>
+                        <li>
+                            <button id=solution>Show me the solution</button>
+                        </li> 
+                    </ul>
+                    
+
+                </ul>
+                
+            </div>
+        </main>    
+</body>
