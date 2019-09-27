@@ -7,39 +7,77 @@
             <ul id=cards class=cards>
                 <li>
                     <section id=card0>
-                        <img src="../images/cards/red_back.png", alt="2 of clubs">
+                        <img src="../images/cards/red_back.png", alt="2 of clubs", data-color="red", data-num='0', data-rank='', data-pick='False'>
                         <br>
-                        <span>First Number</span>
-                        <input value="Enter the first number"/>
+                        <span>First Card</span>
                     </section>
                 </li>
                 <li>
                     <section id=card1>
-                        <img src="../images/cards/purple_back.png", alt="2 of clubs">
+                        <img src="../images/cards/purple_back.png", alt="2 of clubs", data-color="purple", data-num='0', data-rank='', data-pick='False'>
                         <br>
-                        <span>Second Number</span>
-                        <input value="Enter second number"/>
+                        <span>Second Card</span>
                     </section>    
                 </li>
                 <li>
                     <section id=card2>
-                        <img src="../images/cards/blue_back.png", alt="2 of clubs">
+                        <img src="../images/cards/blue_back.png", alt="2 of clubs", data-color="blue", data-num='0', data-rank='', data-pick='False'>
                         <br>
-                        <span>Third Number</span>
-                        <input value="Enter Third number"/>
+                        <span>Third Card</span>
                     </section>
                     
                 </li>
                 <li>
                     <section id=card3>
-                        <img src="../images/cards/green_back.png", alt="2 of clubs">
+                        <img src="../images/cards/green_back.png", alt="2 of clubs", data-color="green", data-num='0', data-rank='', data-pick='False'>
                         <br>
-                        <span>Fourth Number</span>
-                        <input value="Enter fourth number"/>
+                        <span>Fourth Card</span>
                     </section>                
                 </li>
             </ul>
-
+            <div id=desk>
+                <ul>
+                    <li>
+                        <section>
+                        <input id=res0 readonly data-pick='False' data-formula=''>
+                        <br>
+                        <span>First Result</span>
+                        </section>
+                    </li>
+                    <li>
+                        <section>
+                        <input id=res1 readonly data-pick='False' data-formula=''>
+                        <br>
+                        <span>Second Result</span>
+                        </section>
+                    </li>
+                    <li>
+                        <section>
+                        <input  data-pos="-1" id=pick0 readonly data-pick='False' data-formula=''>
+                        <br>
+                        <span>First Pick</span>
+                        </section>
+                    </li>
+                    <li>
+                        <section>
+                        <input data-pos="-1" id=pick1 readonly data-pick='False' data-formula=''>
+                        <br>
+                        <span>Second Pick</span>
+                        </section>
+                    </li>
+             
+                    <li>
+                        <div>
+                            <button>+</button>
+                            <button>-</button>
+                            <button>*</button>
+                            <button>/</button>
+                            <button style="width:95%;">Reset</button>
+                        </div>
+                        
+                    </li>
+                </ul>
+            </div>
             <div class=interaction>
                 <ul id=horizontal>
                     <ul id=input>
@@ -47,7 +85,7 @@
                             <input id=in value="Enter your soution here.">
                         </li>
                         <li>
-                            <input id=out value="N/A" style="outline: none;" readonly>
+                            <input id=out value="Redraw cards to start the game!" style="outline: none;" readonly>
                         </li>
                     </ul>
                     <ul>
@@ -61,10 +99,7 @@
                             <button id=solution>Show me the solution</button>
                         </li> 
                     </ul>
-                    
-
-                </ul>
-                
+                </ul>             
             </div>
         </main>    
 </body>
