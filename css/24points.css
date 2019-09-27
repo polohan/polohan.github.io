@@ -83,6 +83,9 @@ main {
     margin-top: 2px;
     margin-bottom: 2px;
     margin-left: 2px;
+    text-decoration: None;
+    font-size: 130%;
+    border-radius: 0;
 }
 
 #desk div {
