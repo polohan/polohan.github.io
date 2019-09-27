@@ -8,9 +8,9 @@ var res0 = document.getElementById('res0');
 var res1 = document.getElementById('res1');
 var pick0 = document.getElementById('pick0');
 var pick1 = document.getElementById('pick1');
-var operator_buttons = document.querySelectorAll("li > div > button")
+var operator_buttons = document.querySelectorAll("li > div > button");
 var number = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-var rank = ['C','D','H','S'];
+var rank = ['C', 'D', 'H', 'S'];
 var picked_num = [];
 var picked_dict = {};
 var solution_formula = "";
@@ -36,6 +36,7 @@ function pickem() {
     var name = pick_num + pick_rank;
     return name;
 }
+
 function redraw_cards() {
     reset();
     picked_num = [];
@@ -84,7 +85,7 @@ function compute() {
             throw new Error("Entered more than 4 numbers.");
         }
         for (var i = 0; i < optlist.length; i++) {
-            if (!(['/','*','+','-'].includes(optlist[i]))) {
+            if (!(['/', '*', '+', '-'].includes(optlist[i]))) {
                 console.log(optlist[i]);
                 this.setAttribute("maxlength", this.value.length);
                 throw new Error("Not valid operator.");
@@ -94,7 +95,7 @@ function compute() {
         if (output.value == 24) {
             var copy_dict = {};
             Object.assign(copy_dict, picked_dict);
-            
+
             for (var i = 0; i < numlist.length; i++) {
                 if (!(numlist[i] in copy_dict)) {
                     this.setAttribute("maxlength", this.value.length);
@@ -109,39 +110,38 @@ function compute() {
                 }
             }
             output.value = "Correct! " + input.value + "=24";
-            
+
         }
-    }
-    catch(err) {
+    } catch (err) {
         output.value = err.message;
     }
 }
 
 function permutator(inputArr) {
     var results = [];
-  
+
     function permute(arr, memo) {
-      var cur, memo = memo || [];
-  
-      for (var i = 0; i < arr.length; i++) {
-        cur = arr.splice(i, 1);
-        if (arr.length === 0) {
-          results.push(memo.concat(cur));
+        var cur, memo = memo || [];
+
+        for (var i = 0; i < arr.length; i++) {
+            cur = arr.splice(i, 1);
+            if (arr.length === 0) {
+                results.push(memo.concat(cur));
+            }
+            permute(arr.slice(), memo.concat(cur));
+            arr.splice(i, 0, cur[0]);
         }
-        permute(arr.slice(), memo.concat(cur));
-        arr.splice(i, 0, cur[0]);
-      }
-  
-      return results;
+
+        return results;
     }
-  
+
     return permute(inputArr);
 }
 
 function solve() {
     var nums = picked_num.map(x => parseInt(x));
     var permutation = permutator(nums);
-    var operator = ['+','-','*','/'];
+    var operator = ['+', '-', '*', '/'];
     for (var i = 0; i < permutation.length / 2; i++) {
         for (var a = 0; a < operator.length; a++) {
             for (var b = 0; b < operator.length; b++) {
@@ -150,7 +150,7 @@ function solve() {
                     var step1 = '(' + permutation[i][0] + operator[a] + permutation[i][1] + ')';
                     var formula2 = '(' + '(' + permutation[i][0] + operator[a] + permutation[i][1] + ')' + operator[b] + permutation[i][2] + ')' + operator[c] + permutation[i][3];
                     var step2 = '(' + permutation[i][0] + operator[a] + permutation[i][1] + ')';
-                    var formula3 = permutation[i][0] + operator[a] + '(' +permutation[i][1] + operator[b] + '(' + permutation[i][2] + operator[c] + permutation[i][3] + ')' + ')';
+                    var formula3 = permutation[i][0] + operator[a] + '(' + permutation[i][1] + operator[b] + '(' + permutation[i][2] + operator[c] + permutation[i][3] + ')' + ')';
                     var step3 = '(' + permutation[i][2] + operator[c] + permutation[i][3] + ')';
                     if (eval(formula1) === 24) {
                         solution_formula = formula1;
@@ -196,22 +196,20 @@ function pick() {
     if (this.getElementsByTagName('img')[0].getAttribute("data-pick") == 'False') {
         return;
     }
-    var color = this.getElementsByTagName('img')[0].getAttribute("data-color");  
+    var color = this.getElementsByTagName('img')[0].getAttribute("data-color");
     if (pick0.value == "") {
         pick0.value = this.getElementsByTagName('img')[0].getAttribute('data-num');
-        pick0.setAttribute('data-pos', this.id[this.id.length - 1]); 
+        pick0.setAttribute('data-pos', this.id[this.id.length - 1]);
         pick0.setAttribute('data-pick', 'True');
         this.getElementsByTagName('img')[0].src = "../images/cards/" + color + "_back.png";
         this.getElementsByTagName('img')[0].setAttribute('data-pick', 'False');
-    }
-    else if (pick1.value == "") {
+    } else if (pick1.value == "") {
         pick1.value = this.getElementsByTagName('img')[0].getAttribute('data-num');
         pick1.setAttribute('data-pos', this.id[this.id.length - 1]);
         pick1.setAttribute('data-pick', 'True');
         this.getElementsByTagName('img')[0].src = "../images/cards/" + color + "_back.png";
         this.getElementsByTagName('img')[0].setAttribute('data-pick', 'False');
-    }
-    else {
+    } else {
         output.value = "Already picked two number.";
     }
 }
@@ -224,7 +222,7 @@ function operate() {
         var sec = pick1.getAttribute('data-formula') || pick1.value;
         var result = '(' + fst + this.innerText + sec + ')';
         pick0.value = pick1.value = "";
-        
+
         pick0.setAttribute('data-pick', 'False');
         pick1.setAttribute('data-pick', 'False');
         pick0.setAttribute('data-formula', '');
@@ -245,7 +243,7 @@ function operate() {
             } else {
                 output.value = res0.value;
             }
-            
+
         } else {
             res1.value = eval(result);
             res1.setAttribute('data-pick', 'True');
@@ -253,6 +251,7 @@ function operate() {
         }
     }
 }
+
 function reset_card(i) {
     var card = cardslist[i].getElementsByTagName('img')[0];
     var num = card.getAttribute('data-num');
@@ -306,19 +305,17 @@ function res_pick() {
     this.setAttribute('data-pick', 'False');
     if (pick0.value == "") {
         pick0.value = this.value;
-        pick0.setAttribute('data-pos', -1-this.id[this.id.length - 1]); 
+        pick0.setAttribute('data-pos', -1 - this.id[this.id.length - 1]);
         pick0.setAttribute('data-pick', 'True');
         pick0.setAttribute('data-formula', this.getAttribute('data-formula'));
         this.value = "";
-    }
-    else if (pick1.value == "") {
+    } else if (pick1.value == "") {
         pick1.value = this.value;
-        pick1.setAttribute('data-pos', -1-this.id[this.id.length - 1]);
+        pick1.setAttribute('data-pos', -1 - this.id[this.id.length - 1]);
         pick1.setAttribute('data-pick', 'True');
         pick1.setAttribute('data-formula', this.getAttribute('data-formula'));
         this.value = "";
-    }
-    else {
+    } else {
         output.value = "Already picked two number.";
     }
 }

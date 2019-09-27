@@ -1,105 +1,105 @@
-<!doctype html>
-@@include('header.html')
+<!doctype html> @@include('header.html')
 <link rel="stylesheet" href="../css/24points.css">
+
 <body>
     <script async src="../24points.js"></script>
-    <main> 
-            <ul id=cards class=cards>
+    <main>
+        <ul id=cards class=cards>
+            <li>
+                <section id=card0>
+                    <img src="../images/cards/red_back.png" , alt="2 of clubs" , data-color="red" , data-num='0' , data-rank='' , data-pick='False'>
+                    <br>
+                    <span>First Card</span>
+                </section>
+            </li>
+            <li>
+                <section id=card1>
+                    <img src="../images/cards/purple_back.png" , alt="2 of clubs" , data-color="purple" , data-num='0' , data-rank='' , data-pick='False'>
+                    <br>
+                    <span>Second Card</span>
+                </section>
+            </li>
+            <li>
+                <section id=card2>
+                    <img src="../images/cards/blue_back.png" , alt="2 of clubs" , data-color="blue" , data-num='0' , data-rank='' , data-pick='False'>
+                    <br>
+                    <span>Third Card</span>
+                </section>
+
+            </li>
+            <li>
+                <section id=card3>
+                    <img src="../images/cards/green_back.png" , alt="2 of clubs" , data-color="green" , data-num='0' , data-rank='' , data-pick='False'>
+                    <br>
+                    <span>Fourth Card</span>
+                </section>
+            </li>
+        </ul>
+        <div id=desk>
+            <ul>
                 <li>
-                    <section id=card0>
-                        <img src="../images/cards/red_back.png", alt="2 of clubs", data-color="red", data-num='0', data-rank='', data-pick='False'>
-                        <br>
-                        <span>First Card</span>
-                    </section>
-                </li>
-                <li>
-                    <section id=card1>
-                        <img src="../images/cards/purple_back.png", alt="2 of clubs", data-color="purple", data-num='0', data-rank='', data-pick='False'>
-                        <br>
-                        <span>Second Card</span>
-                    </section>    
-                </li>
-                <li>
-                    <section id=card2>
-                        <img src="../images/cards/blue_back.png", alt="2 of clubs", data-color="blue", data-num='0', data-rank='', data-pick='False'>
-                        <br>
-                        <span>Third Card</span>
-                    </section>
-                    
-                </li>
-                <li>
-                    <section id=card3>
-                        <img src="../images/cards/green_back.png", alt="2 of clubs", data-color="green", data-num='0', data-rank='', data-pick='False'>
-                        <br>
-                        <span>Fourth Card</span>
-                    </section>                
-                </li>
-            </ul>
-            <div id=desk>
-                <ul>
-                    <li>
-                        <section>
+                    <section>
                         <input id=res0 readonly data-pick='False' data-formula=''>
                         <br>
                         <span>First Result</span>
-                        </section>
-                    </li>
-                    <li>
-                        <section>
+                    </section>
+                </li>
+                <li>
+                    <section>
                         <input id=res1 readonly data-pick='False' data-formula=''>
                         <br>
                         <span>Second Result</span>
-                        </section>
-                    </li>
-                    <li>
-                        <section>
-                        <input  data-pos="-1" id=pick0 readonly data-pick='False' data-formula=''>
+                    </section>
+                </li>
+                <li>
+                    <section>
+                        <input data-pos="-1" id=pick0 readonly data-pick='False' data-formula=''>
                         <br>
                         <span>First Pick</span>
-                        </section>
-                    </li>
-                    <li>
-                        <section>
+                    </section>
+                </li>
+                <li>
+                    <section>
                         <input data-pos="-1" id=pick1 readonly data-pick='False' data-formula=''>
                         <br>
                         <span>Second Pick</span>
-                        </section>
-                    </li>
-             
+                    </section>
+                </li>
+
+                <li>
+                    <div>
+                        <button>+</button>
+                        <button>-</button>
+                        <button>*</button>
+                        <button>/</button>
+                        <button style="width:95%;">Reset</button>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+        <div class=interaction>
+            <ul id=horizontal>
+                <ul id=input>
                     <li>
-                        <div>
-                            <button>+</button>
-                            <button>-</button>
-                            <button>*</button>
-                            <button>/</button>
-                            <button style="width:95%;">Reset</button>
-                        </div>
-                        
+                        <input id=in value="Enter your soution here.">
+                    </li>
+                    <li>
+                        <input id=out value="Redraw cards to start the game!" style="outline: none;" readonly>
                     </li>
                 </ul>
-            </div>
-            <div class=interaction>
-                <ul id=horizontal>
-                    <ul id=input>
-                        <li>
-                            <input id=in value="Enter your soution here.">
-                        </li>
-                        <li>
-                            <input id=out value="Redraw cards to start the game!" style="outline: none;" readonly>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li>
-                            <button id=redraw>Redraw cards</button>
-                        </li>
-                        <li>
-                            <button id=step>Show me one step</button>
-                        </li>
-                        <li>
-                            <button id=solution>Show me the solution</button>
-                        </li> 
-                    </ul>
-                </ul>             
-            </div>
-        </main>    
+                <ul>
+                    <li>
+                        <button id=redraw>Redraw cards</button>
+                    </li>
+                    <li>
+                        <button id=step>Show me one step</button>
+                    </li>
+                    <li>
+                        <button id=solution>Show me the solution</button>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+    </main>
 </body>
