@@ -19,7 +19,9 @@ input {
     border-color: red;
     border-width: 5px;
 }
-
+input[data-pick='True'] {
+    border-style:None;
+}
 #cards li {
     display: inline-block;
     text-align: center;
@@ -191,10 +193,13 @@ input {
     }
 }
 input[data-pick='True'] {
-    border: 2px solid red;
+    outline: 2px solid red;
 }
 
-
+img[data-pick='True']:hover {
+    outline-offset: -2px;
+    outline: 2px solid red;
+}
 
 #desk input:focus {
     outline: none;
@@ -220,5 +225,9 @@ input[data-pick='True'] {
         width: 500px;
         font-size: 35px;
         padding: 1px;
+    }
+    img[data-pick='True'] {
+        outline-offset: -5px;
+        outline: 5px solid red;
     }
 }
