@@ -50,10 +50,10 @@ input {
         text-align: center;
         margin-left: 5vw;
         margin-right: 5vw;
-        width: 30vw;
+        width: 25vw;
     }
     .cards section {
-        max-width:30vw; 
+        max-width:25vw; 
         display: inline;
     }
     .cards img {
@@ -62,7 +62,7 @@ input {
         height: auto;
     }
     .cards span {
-        font-size:4vw;  
+        font-size:3vw;  
     }
   }
 
@@ -157,8 +157,8 @@ input {
     }
     #desk input {
         font-size: 12vw;
-        width: 20vw;
-        max-width: 40vw;
+        width: 15vw;
+        max-width: 20vw;
         text-align: center;
     }
     #desk ul { 
