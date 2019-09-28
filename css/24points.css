@@ -19,6 +19,12 @@ input {
     border-color: red;
     border-width: 5px;
 }
+section input{
+    border: none;
+    outline-style: auto;
+    outline-color:black;
+}
+
 input[data-pick='True'] {
     border-style:None;
 }
@@ -193,6 +199,8 @@ input[data-pick='True'] {
     }
 }
 input[data-pick='True'] {
+    border: none;
+    outline-offset: -2px;
     outline: 2px solid red;
 }
 
@@ -231,3 +239,4 @@ img[data-pick='True']:hover {
         outline: 5px solid red;
     }
 }
+
