@@ -9,21 +9,66 @@
 main {
     text-align: center;
 }
+body {
+    background-color: green;
+}
+input {
+    background-color: green;
+    border-style:None;
+    border-bottom-style: dotted;
+    border-color: red;
+    border-width: 5px;
+}
 
 #cards li {
     display: inline-block;
     text-align: center;
-    width: 200px;
+    width: 10vw;
+    
+    margin-left: 2vw;
+    margin-right: 2vw;
 }
-
+.cards section {
+    margin-left: auto;
+    margin-right: auto;
+    max-width:10vw; 
+}
 .cards img {
     padding: 2px;
-    width: 75%;
+    width: 100%;
+    max-width: 150px;
     height: auto;
 }
+.cards span {
+    font-size:1.75vw;
+    width: 150%;
+}
+@media only screen and (max-device-width: 480px) {
+    /* For mobile phones: */
+    #cards li {
+        display: inline-block;
+        text-align: center;
+        margin-left: 5vw;
+        margin-right: 5vw;
+        width: 30vw;
+    }
+    .cards section {
+        max-width:30vw; 
+        display: inline;
+    }
+    .cards img {
+        padding: 2px;
+        max-width: 100%;
+        height: auto;
+    }
+    .cards span {
+        font-size:4vw;  
+    }
+  }
 
 .interaction {
-    margin-top: 50px;
+    margin-top: 10px;
+    padding-top: 0px;
 }
 
 .interaction button {
@@ -40,7 +85,6 @@ main {
 
 #horizontal {
     padding: 0px;
-    margin: 50px 50px 50px 50px;
 }
 
 .interaction li {
@@ -62,12 +106,15 @@ main {
     text-align: center;
     list-style-type: none;
     padding: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #desk li {
-    width: 160px;
+    max-width: 18vw;
     padding: 0;
-    margin: 0;
+    margin-left: 2vw;
+    margin-right: 2vw;
     float: left;
 }
 
@@ -77,37 +124,75 @@ main {
 }
 
 #desk button {
-    width: 72px;
+    width: 45%;
     margin: 0;
-    height: 50px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    margin-left: 2px;
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0.5vw;
+    margin-left: 0.5vw;
     text-decoration: None;
     font-size: 130%;
     border-radius: 0;
+    border-color: black;
 }
 
-#desk div {
-    text-align: center;
-}
+
 
 #desk input {
-    height: 100px;
-    font-size: 80px;
-    width: 50%;
+    font-size: 8vmin;
+    width: 10vmin;
+    max-width: 120px;
     text-align: center;
 }
-
+@media only screen and (max-device-width: 480px) {
+    #desk span {
+        font-size: 3vw;
+    }
+    #desk div {
+        position: relative;
+        top: 2vh;
+    }
+    #desk input {
+        font-size: 12vw;
+        width: 20vw;
+        max-width: 20vw;
+        text-align: center;
+    }
+    #desk ul { 
+        margin-left: 0;
+        margin-right: 0;
+    }
+    #desk li {
+        width: 40vw;
+        margin-left: 7vw;
+        margin-right: 7vw;
+    }
+    #desk .Line0{
+        
+        margin-left: 12vw;
+        margin-right: 12vw;
+    }
+    #desk button {
+        height: 150%;
+        margin-top: 0;
+        margin-bottom: 0.5vw;
+        margin-left: 0.5vw;
+        text-decoration: None;
+        font-size: 200%;
+        border-radius: 0;
+        border-color: black;
+    }
+    .interaction button {
+        height: 75px;
+        width: 300px;
+        font-size: 30px;
+    }
+}
 input[data-pick='True'] {
     border: 2px solid red;
 }
 
-img[data-pick='True'] {
-    padding: 0px;
-    border: 2px solid red;
-    border-radius: 10px;
-}
+
 
 #desk input:focus {
     outline: none;
@@ -118,8 +203,20 @@ img[data-pick='True'] {
     width: 400px;
     font-size: 20px;
     padding: 1px;
+    
+}
+#input li {
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 0px;
+    
 }
 
-#input li {
-    margin: 20px;
+@media only screen and (max-device-width: 480px) {
+    #input input {
+        height: 85px;
+        width: 500px;
+        font-size: 35px;
+        padding: 1px;
+    }
 }
