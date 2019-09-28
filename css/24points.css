@@ -176,11 +176,12 @@ input {
     }
     #desk button {
         height: 150%;
+        width:45%;
         margin-top: 0;
         margin-bottom: 0.5vw;
         margin-left: 0.5vw;
         text-decoration: None;
-        font-size: 200%;
+        font-size: 300%;
         border-radius: 0;
         border-color: black;
     }
